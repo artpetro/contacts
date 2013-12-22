@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Component;
+import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JPanel;
@@ -18,10 +20,13 @@ public class NameCell extends AbstractCellEditor implements TableCellEditor, Tab
 	
 	private JPanel panel = new JPanel();
 	private JTextField name = new JTextField(20);
-	private JTextField position = new JTextField(20);
+	private JTextField position = new JTextField(27);
 	
 	public NameCell() {
 		
+		Font font = new Font("Default", Font.PLAIN, 9);
+		
+		position.setFont(font);
 		panel.add(name);
 		panel.add(position);
 		
@@ -32,7 +37,7 @@ public class NameCell extends AbstractCellEditor implements TableCellEditor, Tab
 	public Component getTableCellRendererComponent(JTable table, Object value,
 		      boolean isSelected, boolean hasFocus, int row, int column) {
 		
-	    updateData((String[])value, isSelected, table);
+	    updateData(value, isSelected, table);
 	    
 	    return this.panel;
 	
@@ -43,38 +48,44 @@ public class NameCell extends AbstractCellEditor implements TableCellEditor, Tab
 	public Component getTableCellEditorComponent(JTable table, Object value,
 		      boolean isSelected, int row, int column) {
 
-		updateData((String[])value, true, table);
+		updateData(value, true, table);
 		
 	    return this.panel;
 
 	}
 	
 	
-	private void updateData(String[] value, boolean isSelected, JTable table) {
+	@Override
+	public Object getCellEditorValue() {
+//		System.out.println("namecell:get editor value");
 		
-		if (value != null) {
+		ArrayList<String> list = new ArrayList<String>();
+		
+		list.add(this.name.getText());
+		list.add(this.position.getText());
+		
+		return list;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private void updateData(Object value, boolean isSelected, JTable table) {
+		
+		ArrayList<String> list = (ArrayList<String>) value;
+	    
+		if (list.size() == 2) {
 	    	
-    		this.name.setText(value[0]);
-    		this.position.setText(value[1]);
+    		this.name.setText(list.get(0));
+    		this.position.setText(list.get(1));
     
     	}
+//		System.out.println("namecell:update data");
+
 		
 		if (isSelected) {
 			panel.setBackground(table.getSelectionBackground());
 		}else{
 			panel.setBackground(table.getBackground());
 		}	
-	}
-	
-
-	@Override
-	public Object getCellEditorValue() {
-		
-		String[] value = new String[2];
-		
-		value[0] = this.name.getText();
-		value[1] = this.position.getText();
-		
-		return value;
-	}
+	}	
 }

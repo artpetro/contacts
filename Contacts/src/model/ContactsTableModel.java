@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -16,16 +18,13 @@ public class ContactsTableModel  extends AbstractTableModel {
 	
 	private static final int COLCOUNT = 3;
 	
-	private List<String[]> namesList;
+	private List<List<String>> namesList;
 	private List<String> phoneNumbersList;
 	private List<String> emailsList;
-	
-	public ContactsTableModel(List<String[]> namesList, List<String> phoneNumbersList, List<String> emailsList) {
-		
-		this.namesList = namesList;
-		this.phoneNumbersList = phoneNumbersList;
-		this.emailsList = emailsList;
-		
+
+
+	public ContactsTableModel() {
+		setData(null);	
 	}
 	
 	public Class<?> getColumnClass(int columnIndex) { 
@@ -59,15 +58,15 @@ public class ContactsTableModel  extends AbstractTableModel {
 		}	
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setValueAt(Object val, int row, int column) {
 		
 		if (column == 0) {
 			
-			String[] str = (String[])val;
-			this.namesList.get(row)[0] = str[0];
-			this.namesList.get(row)[1] = str[1];
-			
+			ArrayList<String> list = (ArrayList<String>)val;
+			this.namesList.set(row, list);
+		
 		}
 		
 		else if (column == 1) {
@@ -94,7 +93,7 @@ public class ContactsTableModel  extends AbstractTableModel {
 			toIndex--;
 		}
 		
-		String[] name = this.namesList.get(fromIndex);
+		List<String> name = this.namesList.get(fromIndex);
 		String phones = this.phoneNumbersList.get(fromIndex);
 		String emails = this.emailsList.get(fromIndex);
 		
@@ -108,5 +107,74 @@ public class ContactsTableModel  extends AbstractTableModel {
 		
 		this.fireTableDataChanged();
 	}
+	
+	public void addRow(int index) {
+		
+		if (index == -1) {
+			index = this.namesList.size();
+		}
+		
+		List<String> names = new ArrayList<String>();
+		names.add("");
+		names.add("");
+		
+		this.namesList.add(index, names);
+		this.phoneNumbersList.add(index, "");
+		this.emailsList.add(index, "");
+		
+		this.fireTableRowsInserted(index, index);
+		
+	}
+	
+	public void removeRow(int index, int count) {
+		
+		if (index != -1 && this.getRowCount() - count >= 10) {
+			
+			this.namesList.remove(index);
+			this.phoneNumbersList.remove(index);
+			this.emailsList.remove(index);
+			
+			this.fireTableRowsDeleted(index, index);	
+		}	
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List[] getData() {
+		
+		List[] data = new List[3];
 
+		data[0] = this.namesList;
+		data[1] = this.phoneNumbersList;
+		data[2] = this.emailsList;
+		
+		return data;
+		
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void setData(List[] data) {
+
+		if (data == null) {
+			this.namesList = new LinkedList<List<String>>();
+			this.phoneNumbersList = new LinkedList<String>();
+			this.emailsList = new LinkedList<String>();
+			
+			for (int i = 0; i < 10; i++) {
+				ArrayList<String> names = new ArrayList<String>();
+				names.add("");
+				names.add("");
+				this.namesList.add(names);
+				this.phoneNumbersList.add("");
+				this.emailsList.add("");
+			}
+		}
+		else {
+			
+			this.namesList = data[0];
+			this.phoneNumbersList = data[1];
+			this.emailsList = data[2];
+			
+			this.fireTableDataChanged();
+		}
+	}
 }
