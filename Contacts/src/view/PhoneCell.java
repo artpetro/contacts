@@ -42,21 +42,17 @@ public class PhoneCell extends AbstractCellEditor implements TableCellEditor, Ta
 	public Component getTableCellEditorComponent(JTable table, Object value,
 		      boolean isSelected, int row, int column) {
 
-		updateData((String)value, true, table);
+		updateData(value, true, table);
 		
 	    return this.panel;
 
 	}
 	
 	
-	private void updateData(String value, boolean isSelected, JTable table) {
+	private void updateData(Object value, boolean isSelected, JTable table) {
 		
 		if (value != null) {
-			
-			String str = String.format("%s\n", value);
-			
-			this.textArea.setText(str);
-			
+			this.textArea.setText(value.toString());
     	}
 		
 		if (isSelected) {
