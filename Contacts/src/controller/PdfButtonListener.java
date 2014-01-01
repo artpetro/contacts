@@ -8,6 +8,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import utils.PdfWriter;
+import view.ContactsTable;
 import view.FileSaveChooser;
 import view.MainView;
 
@@ -21,6 +22,14 @@ public class PdfButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
+		ContactsTable table = (ContactsTable) this.mainView.getTable();
+		
+		try {
+			table.getCellEditor().stopCellEditing();
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
 		
 		FileSaveChooser chooser = new FileSaveChooser(mainView, "pdf");
      

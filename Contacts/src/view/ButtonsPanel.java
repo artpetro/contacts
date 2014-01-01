@@ -12,13 +12,10 @@ import javax.swing.border.TitledBorder;
 import controller.CloseButtonListener;
 import controller.LoadButtonListener;
 import controller.NewContactButtonListener;
+import controller.PdfButtonListener;
 import controller.RemoveContactButtonListener;
 import controller.SaveButtonListener;
 
-//import controller.CloseButtonListener;
-//import controller.LoadButtonListener;
-//import controller.PdfButtonListener;
-//import controller.SaveButtonListener;
 
 
 public class ButtonsPanel extends JPanel{
@@ -52,7 +49,7 @@ public class ButtonsPanel extends JPanel{
 		this.saveBtn.addActionListener(new SaveButtonListener(mainView));
 		this.loadBtn.addActionListener(new LoadButtonListener(mainView));
 		this.closeBtn.addActionListener(new CloseButtonListener(mainView));
-//		this.toPdfBtn.addActionListener(new PdfButtonListener(mainView));
+		this.toPdfBtn.addActionListener(new PdfButtonListener(mainView));
 		this.newBtn.addActionListener(new NewContactButtonListener(mainView));
 		this.removeBtn.addActionListener(new RemoveContactButtonListener(mainView));
 		

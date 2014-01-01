@@ -19,8 +19,11 @@ public class RemoveContactButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		
 		ContactsTable table = this.mainView.getTable();
-		table.getCellEditor().stopCellEditing();
-		((ContactsTableModel) table.getModel()).removeRow(table.getSelectedRow(), table.getSelectedRowCount());
-		
+		try {
+			table.getCellEditor().stopCellEditing();
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+		((ContactsTableModel) table.getModel()).removeRow(table.getSelectedRow(), table.getSelectedRowCount());	
 	}
 }

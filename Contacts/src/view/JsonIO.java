@@ -30,13 +30,17 @@ public class JsonIO {
 	        FileWriter fw;
 	        
 	        try {
-			
+	        	
 	        	fw = new FileWriter(file.getAbsoluteFile());
 	        	BufferedWriter bw = new BufferedWriter(fw);
 	        	Gson json = new Gson();
  			 
 	        	bw.write(json.toJson(((ContactsTableModel) mainView.getTable().getModel()).getData()));
 	        	bw.close();
+	        	
+	        	String dirPfad = file.getParent().toString();
+	            mainView.setDirPath(dirPfad);
+	            mainView.setFileNameInTitle(file.getName());
  			 
 			} catch (IOException e) {
 				e.printStackTrace();

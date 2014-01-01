@@ -2,233 +2,233 @@ package utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
+import model.ContactsTableModel;
 import view.MainView;
+
+import com.pdfjet.Box;
+import com.pdfjet.Font;
+import com.pdfjet.Letter;
+import com.pdfjet.Line;
+import com.pdfjet.PDF;
+import com.pdfjet.Page;
+import com.pdfjet.TextLine;
 
 public class PdfWriter {
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void writePdf(MainView mainView, File file) throws FileNotFoundException, Exception {
 		
-//		WeekPlanModel model = mainView.getModell();
-//		
-//		int[] se = model.getStartEndPeriod();
-//
-//		if (se[2] > 0) {
-//			
-//			FileOutputStream fos = new FileOutputStream(file);
-//
-//	        PDF pdf;
-//			
-//			pdf = new PDF(fos);
-//			
-//
-//	        // widht 590 height 800
-//	        Page page = new Page(pdf, Letter.PORTRAIT);
-//	        
-//	        int[] white = {255, 255, 255};
-//			int[] black = {0, 0, 0};
-//	        
-//	        Box mainBox = new Box();
-//	        mainBox.setPosition(30.0f, 20.0f);
-//	        float boxWidht = 550.0f;
-//	        float boxHeight = 760.0f;
-//	        mainBox.setSize(boxWidht, boxHeight);
-//	        mainBox.setColor(white);
-//	        mainBox.drawOn(page);
-//	        
-//	        // title
-//	        int titleSize = 12;
-//	        String title = model.getTitle();
-//	        
-//	        Font titleFont = new Font(pdf, "Helvetica-Bold");
-//	        titleFont.setSize(titleSize);
-//	        TextLine titleLine = new TextLine(titleFont);
-//	        titleLine.placeIn(mainBox);
-//	        titleLine.setPosition((boxWidht - (title.length() * titleSize/2))/2, 20);
-//	        
-//	        titleLine.setText(title);
-//	        titleLine.drawOn(page);
-//	        
-//	        int hoursCount = 24;
-//	      
-//	        if (se[1] <= se[0] || model.isNewDay()) {	    	   
-//	        	hoursCount = 24 - se[0] / 60 + se[1] / 60;	       
-//	        }
-//	       
-//	        else {	    	
-//	        	hoursCount = se[1] / 60 - se[0] / 60;	       
-//	        }       
-//	        if (se[1] % 60 > 0) {	    	
-//	        	hoursCount++;       
-//	        }
-//	        
-//	        float x_linesStart = 40;
-//	        float x_linesEnd = 60;
-//	        
-//	        float hourLength = (boxWidht - x_linesStart - x_linesEnd) / hoursCount;
-//	        
-//	        int hour = se[0] / 60;
-//	        int startHour = hour;
-//	        
-//	        float y_linesStart = 80.0f;
-//	        float y_linesEnd = boxHeight - 20;
-//	        
-//	        for (int i = 0; i < hoursCount + 1; i++) {
-//	        	
-//	        	float x_pos = hourLength * i + x_linesStart;
-//	        	float hourSize = 10.0f;
-//	        	Font hourFont = new Font(pdf, "Helvetica");
-//		        String hourText = (hour++) % 24 + "";
-//	        	hourFont.setSize(hourSize);
-//		        TextLine hourLine = new TextLine(hourFont);
-//		        hourLine.placeIn(mainBox);
-//		        
-//		        hourLine.setPosition(x_pos - (hourText.length() * hourSize/3), y_linesStart - hourSize/2);
-//		        
-//		        hourLine.setText(hourText);
-//		        hourLine.drawOn(page);
-//	        	
-//	        	
-//	        			
-//	        	Line line = new Line(x_pos, y_linesStart, x_pos, y_linesEnd);
-//	        	line.placeIn(mainBox);
-//	        	line.drawOn(page);
-//	        }
-//	        
-//	        // working layers
-//	        float vertikalPadding = 5.0f; // between layers
-//	        float maxLayerBoxHeight = 20.0f;
-//	        float layerBoxHeight = Math.min(maxLayerBoxHeight, ((y_linesEnd - y_linesStart) - (se[2] + 1) * vertikalPadding) / se[2]);
-//
-//	        DayPlanModel[] daysArr = model.getDays();
-//	        DayPlanModel day;
-//	        LinkedList<WorkingLayerModel> layers;
-//	        Box layerBox;
-//	        float layerBoxLength;
-//	        int layerCount = 0;
-//
-//			String dayTitle;
-//			Font dayTitleFont;
-//			TextLine dayTitleLine;
-//			
-//			String timeTitle;
-//			Font timeTitleFont;
-//			TextLine timeTitleLine;
-//			
-//			float y_layerTitle;
-//			int timeStart;
-//			int timeEnd;
-//			
-//	        for (int i = 0; i < daysArr.length; i ++) {
-//	        	
-//	        	day = daysArr[i];
-//	        	layers = day.getLayers();
-//	        	
-//	        	if (!layers.isEmpty()) {
-//	        		
-//		        	// day label
-//	        		int dayTitleSize = 12;
-//	        		y_layerTitle = (layerBoxHeight + vertikalPadding) * layerCount + y_linesStart + vertikalPadding * 2 + layerBoxHeight / 2;
-//	    	        dayTitle = MainView.days[i].substring(0, 2);
-//	    	        dayTitleFont = new Font(pdf, "Helvetica");
-//	    	        dayTitleFont.setSize(dayTitleSize);
-//	    	        dayTitleLine = new TextLine(dayTitleFont);
-//	    	        dayTitleLine.placeIn(mainBox);
-//	    	        dayTitleLine.setPosition(x_linesStart/2, y_layerTitle);
-//	    	        
-//	    	        dayTitleLine.setText(dayTitle);
-//	    	        dayTitleLine.drawOn(page);
-//		
-//	    	        // layer box
-//	        		for (WorkingLayerModel wlm : layers) {
-//	        			
-//	        			layerBox = new Box();
-//	        			layerBoxLength = wlm.getTimeCountInMins() * hourLength / 60;
-//	        			layerBox.setSize(layerBoxLength, layerBoxHeight);
-//	        			
-//	        			layerBox.placeIn(mainBox, ((wlm.getStart() / 60.0f - startHour) * hourLength) + x_linesStart, (layerBoxHeight + vertikalPadding) * layerCount + y_linesStart + vertikalPadding);
-//	        			
-//	        			layerBox.setColor(white);
-//	        			layerBox.setFillShape(true);
-//	        			layerBox.drawOn(page);
-//	        			
-//	        			layerBox.setColor(black);
-//	        			layerBox.setFillShape(false);
-//	        			layerBox.drawOn(page);
-//	        			
-//	        			// layer-time labels
-//		        		float timeTitleSize = 10.0f;
-//		        		if (layerBoxHeight <= timeTitleSize) {
-//		        			timeTitleSize = layerBoxHeight - 2.0f ;
-//		        		}
-//		        		y_layerTitle = (layerBoxHeight + vertikalPadding) * layerCount + y_linesStart + vertikalPadding * 2 + layerBoxHeight / 2;
-//		        		timeStart = wlm.getStart();
-//		        		timeEnd = wlm.getEnd();
-//		    	        timeTitle = String.format("%02d:%02d - %02d:%02d", timeStart / 60, timeStart % 60, timeEnd / 60, timeEnd % 60);
-//		    	        timeTitleFont = new Font(pdf, "Helvetica");
-//		    	        timeTitleFont.setSize(timeTitleSize);
-//		    	        timeTitleLine = new TextLine(timeTitleFont);
-//		    	        timeTitleLine.placeIn(mainBox);
-//		    	        timeTitleLine.setPosition(boxWidht - x_linesEnd + 80 - timeTitle.length() * timeTitleSize/2, y_layerTitle);
-//		    	        
-//		    	        timeTitleLine.setText(timeTitle);
-//		    	        timeTitleLine.drawOn(page);
-//		    	        
-//		    	        // name labels
-//		    	        timeTitle = wlm.getText();
-//		    	        timeTitleFont = new Font(pdf, "Helvetica");
-//		    	        timeTitleFont.setSize(timeTitleSize);
-//		    	        timeTitleLine = new TextLine(timeTitleFont);
-//		    	        timeTitleLine.placeIn(layerBox);
-//		    	        timeTitleLine.setPosition(Math.abs(layerBoxLength - (timeTitle.length() * timeTitleSize/2))/2, layerBoxHeight - Math.max((layerBoxHeight - timeTitleSize)/2, 1));
-//		    	        
-//		    	        timeTitleLine.setText(timeTitle);
-//		    	        timeTitleLine.drawOn(page);
-//	        			
-//	        			
-//	        			
-//	        			layerCount++;
-//	        			
-//	        		}
-//	        	}
-//	        }
-//	        
-//	        // foot line
-//	        int footerSize = 10;
-//	        int mins = model.getMinsCounter();
-//	        
-//	        String times = "";
-//	        DayPanel[] dps = mainView.getDayPanels();
-//	        
-//	        for (int i = 0; i < 7; i++) {
-//	        	times += MainView.days[i].substring(0, 2) + ": " + dps[i].getTimeCountField(9).getText() + ", ";
-//	        }
-//	        
-//	        times += String.format("Woche: %d:%02d", mins / 60, mins % 60);
-//	        String footer = "Schichtplanung V. 1.1 - RS Gastronomie GmbH & Co.KG, Herford";
-//	        
-//	        Font footerFont = new Font(pdf, "Helvetica");
-//	        footerFont.setSize(footerSize);
-//	        TextLine footerLine = new TextLine(footerFont);
-//	        
-//	        footerLine.setText(times);
-//	        footerLine.setPosition((Letter.PORTRAIT[0] - (times.length() * footerSize/2))/2, 15 + boxHeight);
-//	        footerLine.drawOn(page);
-//	        
-//	        footerLine.setText(footer);
-//	        footerLine.setPosition((Letter.PORTRAIT[0] - (footer.length() * footerSize/2))/2, 25 + boxHeight);
-//	        footerLine.drawOn(page);
-//	        
-//	        
-//	        pdf.flush();
-//	        fos.close();
-//	        
-//	        Runtime rt = Runtime.getRuntime();
-//        	try{
-//        		rt.exec( "rundll32" +" " + "url.dll,FileProtocolHandler" + " " + file);
-//        	}catch (Exception e1){
-//        		e1.printStackTrace();
-//        	}
-//		}
+		List[] data = ((ContactsTableModel) mainView.getTable().getModel()).getData();
+	
+		List<List<String>> names = data[0];
+		List<String[]> phones = new LinkedList<String[]>();
+		List<String[]> emails = new LinkedList<String[]>();
+		
+		int dataCount = names.size();
+		
+		String[] phonesArr;
+		String[] emailsArr;
+		
+		for (int i = 0; i < dataCount; i++) {
+			
+			phonesArr = ((String) data[1].get(i)).split("\n");
+			emailsArr = ((String) data[2].get(i)).split("\n");
+			
+			phones.add(phonesArr);
+			emails.add(emailsArr);
+		}
+		
+		
+		FileOutputStream fos = new FileOutputStream(file);
+
+        PDF pdf;
+		
+		pdf = new PDF(fos);
+		
+		int namePointer = 0;
+		
+		float headerHeight = 20.0f;
+        
+		
+		while (namePointer < dataCount) {
+			
+	        Page page = new Page(pdf, Letter.PORTRAIT);
+		
+	        Box mainBox = new Box();
+	        float mainBoxX = 30.0f;
+	        float mainBoxY = 30.0f;
+		    mainBox.setPosition(mainBoxX, mainBoxY);
+		    
+		    float boxWidht = 550.0f;
+		    float maxBoxHeight = 700.0f;
+		    
+		    // data cells
+	        float aviableHeight = maxBoxHeight - headerHeight;
+	        float minCellHeight = 35.0f;
+	        int tmpPointer = namePointer;
+	        
+	        while(aviableHeight > minCellHeight && tmpPointer < dataCount) {
+	     
+	        	float cellHeight = Math.max(phones.get(tmpPointer).length * 15, emails.get(tmpPointer).length * 15) + 5;
+	        	aviableHeight -= Math.max(minCellHeight, cellHeight);
+	        	tmpPointer++;
+	        	
+	        }
+		    
+	        float boxHeight = maxBoxHeight - aviableHeight;
+		    mainBox.setSize(boxWidht, boxHeight);
+		    mainBox.drawOn(page);
+		    
+		    // title
+	        int titleSize = 12;
+	        String title = String.format("%s", mainView.getFileName());
+	        
+	        Font titleFont = new Font(pdf, "Helvetica-Bold");
+	        titleFont.setSize(titleSize);
+	        TextLine titleLine = new TextLine(titleFont);
+	        titleLine.setPosition((boxWidht - (title.length() * titleSize/7))/2, 15);
+		        
+	        titleLine.setText(title);
+	        titleLine.drawOn(page);
+	        
+	        // header
+	        Line line = new Line(0, headerHeight, boxWidht, headerHeight);
+	        line.placeIn(mainBox);
+	    	line.drawOn(page);
+	    	
+	    	// column lines
+	    	line = new Line(boxWidht/3, 0, boxWidht/3, boxHeight);
+	    	line.placeIn(mainBox);
+	    	line.drawOn(page);
+	    	line = new Line(2 * boxWidht / 3, 0, 2 * boxWidht / 3, boxHeight);
+	    	line.placeIn(mainBox);
+	    	line.drawOn(page);
+	    	
+	    	// header title
+	    	// name
+	    	float y_pos = headerHeight - (headerHeight - titleSize)/2;
+	        TextLine textLine = new TextLine(titleFont);
+	        textLine.placeIn(mainBox);
+	        textLine.setPosition((boxWidht/3 - 4 * titleSize)/2, y_pos);
+	        textLine.setText("Name");
+	        textLine.drawOn(page);
+	        
+	        // tel
+	        textLine = new TextLine(titleFont);
+	        textLine.placeIn(mainBox);
+	        textLine.setPosition((boxWidht/3 - 4 * titleSize)/2 + boxWidht/3, y_pos);
+	        textLine.setText("Telefon");
+	        textLine.drawOn(page);
+	    	
+	        // email
+	        textLine = new TextLine(titleFont);
+	        textLine.placeIn(mainBox);
+	        textLine.setPosition((boxWidht/3 - 4 * titleSize)/2 + 2*boxWidht/3, y_pos);
+	        textLine.setText("Email");
+	        textLine.drawOn(page);
+	    	
+	        Font mainFont = new Font(pdf, "Helvetica");
+	        Font positionFont = new Font(pdf, "Helvetica");
+	        float mainFontSize = 10.0f;
+	        mainFont.setSize(mainFontSize);
+	        positionFont.setSize(8);
+	        
+	        float lineOffcet = 5.0f;
+	        float nameX = 2 * lineOffcet;
+	        float phoneX = nameX + boxWidht/3;
+	        float emailX = phoneX + boxWidht/3;
+	        float cellY = 3 * lineOffcet + headerHeight;
+	        float tmpCellY = cellY;
+	        float positionY;
+	        
+	        // data row
+	        while(tmpPointer - namePointer > 0) {
+
+	        	// name cell
+	        	textLine = new TextLine(mainFont);
+	        	textLine.placeIn(mainBox);
+	        	textLine.setPosition(nameX, cellY);
+	        	textLine.setText(names.get(namePointer).get(0));
+	        	textLine.drawOn(page);
+	        	
+	        	textLine = new TextLine(positionFont);
+	        	textLine.placeIn(mainBox);
+	        	positionY = cellY + mainFontSize + lineOffcet;
+	        	textLine.setPosition(nameX, positionY);
+	        	textLine.setText(names.get(namePointer).get(1));
+	        	textLine.drawOn(page);
+	        	
+	        	// telefon cell
+	        	String[] phone = phones.get(namePointer);
+	        	
+	        	for (String s : phone) {
+	        		
+	        		textLine = new TextLine(mainFont);
+		        	textLine.placeIn(mainBox);
+		        	textLine.setPosition(phoneX, tmpCellY);
+		        	textLine.setText(s);
+		        	textLine.drawOn(page);
+		        	
+		        	tmpCellY += mainFontSize + lineOffcet;
+	        	
+	        	}
+	        	
+	        	// email cell
+	        	String[] email = emails.get(namePointer);
+	        	
+	        	for (String s : email) {
+	        		
+	        		textLine = new TextLine(mainFont);
+		        	textLine.placeIn(mainBox);
+		        	textLine.setPosition(emailX, cellY);
+		        	textLine.setText(s);
+		        	textLine.drawOn(page);
+		        	
+		        	cellY += mainFontSize + lineOffcet;
+	        	
+	        	}
+	        	
+	        	// closed line
+	        	cellY = Math.max(cellY, tmpCellY);
+	        	cellY = Math.max(cellY, positionY + mainFontSize + lineOffcet);
+	        	
+	        	line = new Line(0, cellY - mainFontSize, boxWidht, cellY - mainFontSize);
+		        line.placeIn(mainBox);
+		    	line.drawOn(page);
+		    	
+		    	cellY += lineOffcet;
+		    	tmpCellY = cellY;
+	        	
+	        	namePointer++;
+	        	
+	        }
+	        
+	        // footer line
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+	        String date = dateFormat.format(new Date());
+	    	String footer = "Kontakte - " + mainView.getVersion() + " - RS Gastronomie GmbH & Co.KG, Herford - " + date;
+	    	
+	    	textLine = new TextLine(mainFont);
+	    	textLine.setText(footer);
+	    	textLine.setPosition((Letter.PORTRAIT[0] - (footer.length() * 5))/2, 60 + boxHeight);
+	        textLine.drawOn(page);
+	        
+		}
+        
+    	pdf.flush();
+        fos.close();
+        
+        Runtime rt = Runtime.getRuntime();
+    	try{
+    		rt.exec( "rundll32" +" " + "url.dll,FileProtocolHandler" + " " + file);
+    	}catch (Exception e1){
+    		e1.printStackTrace();
+    	}
 	}
 }

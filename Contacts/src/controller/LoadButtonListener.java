@@ -23,6 +23,7 @@ public class LoadButtonListener implements ActionListener {
 		
 		List[] data = JsonIO.load(this.mainView.getDirPath(), this.mainView);
 		ContactsTable table = (ContactsTable) this.mainView.getTable();
+		
 		try {
 			table.getCellEditor().stopCellEditing();
 		} catch (Exception e) {

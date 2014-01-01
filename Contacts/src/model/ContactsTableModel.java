@@ -161,11 +161,11 @@ public class ContactsTableModel  extends AbstractTableModel {
 			
 			for (int i = 0; i < 10; i++) {
 				ArrayList<String> names = new ArrayList<String>();
-				names.add("");
-				names.add("");
+				names.add("");// + i + " Name");
+				names.add("");// + i + " Position");
 				this.namesList.add(names);
-				this.phoneNumbersList.add("");
-				this.emailsList.add("");
+				this.phoneNumbersList.add("");// + i + " 12345\n22345\n32345\n42345");
+				this.emailsList.add("");// + i + " 12345@dd.dd\n22345@dd.dd\n32345@dd.dd\n42345@dd.dd");
 			}
 		}
 		else {
