@@ -21,6 +21,8 @@ public class ContactsTableModel  extends AbstractTableModel {
 	private List<List<String>> namesList;
 	private List<String> phoneNumbersList;
 	private List<String> emailsList;
+	
+	private String title;
 
 
 	public ContactsTableModel() {
@@ -177,4 +179,13 @@ public class ContactsTableModel  extends AbstractTableModel {
 			this.fireTableDataChanged();
 		}
 	}
+	
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 }

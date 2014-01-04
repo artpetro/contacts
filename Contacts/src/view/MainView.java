@@ -49,42 +49,21 @@ public class MainView extends JFrame {
 		this.setFileName(this.fileName);
 		
 		final Dimension d = this.getToolkit().getScreenSize();
-//		this.setSize((int)Math.min(1800, d.getWidth()), (int)Math.min(800, d.getHeight()));
 		this.setSize(1000, 750);
 		this.setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
-//	    this.setExtendedState(JFrame.MAXIMIZED_BOTH);  
 		
-//		// header panel
-//		headerPanel = new HeaderPanel();
-//		
-//		// contacts table
-//		table = new ContactsTable();
-//		
-//		// buttons panel
-//		buttonsPanel = new ButtonsPanel(this);
-		
-//		// main panel
-//		mainPanel = new JPanel(new BorderLayout());
-//		mainPanel.setBorder(new TitledBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY ), "Kontakte"));
-//		
-//		JScrollPane tablePane = new JScrollPane(table);
-//		tablePane.setPreferredSize(new Dimension(1000, 620));
-//		
-//		mainPanel.add(tablePane, BorderLayout.PAGE_START);
-//		mainPanel.add(buttonsPanel);
+		this.table = new ContactsTable();
 		
 		// main panel
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 		
 		// header panel
-		headerPanel = new HeaderPanel();
+		headerPanel = new HeaderPanel(this);
 				
-		// table
+		// table panel
 		tablePanel = new JPanel();
 		tablePanel.setBorder(new TitledBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY ), "Kontakte"));
-		
-		table = new ContactsTable();
 		
 		JScrollPane tablePane = new JScrollPane(table);
 		tablePane.setPreferredSize(new Dimension(1000, 620));
