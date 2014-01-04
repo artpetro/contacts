@@ -40,7 +40,7 @@ public class JsonIO {
 	        	
 	        	String dirPfad = file.getParent().toString();
 	            mainView.setDirPath(dirPfad);
-	            mainView.setFileNameInTitle(file.getName());
+	            mainView.setFileName(file.getName());
  			 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -104,7 +104,7 @@ public class JsonIO {
         	}
 
             chooser.setVisible(false);
-            mainView.setFileNameInTitle(file.getName());
+            mainView.setFileName(file.getName());
             return data;
         }
         

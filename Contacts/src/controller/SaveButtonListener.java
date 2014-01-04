@@ -17,6 +17,12 @@ public class SaveButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
+		try {
+			mainView.getTable().getCellEditor().stopCellEditing();
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+		
 		JsonIO.saveAs(this.mainView);
 		
 	}

@@ -210,9 +210,9 @@ public class PdfWriter {
 	        }
 	        
 	        // footer line
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("d.MM.yyyy, H:mm");
 	        String date = dateFormat.format(new Date());
-	    	String footer = "Kontakte - " + mainView.getVersion() + " - RS Gastronomie GmbH & Co.KG, Herford - " + date;
+	    	String footer = mainView.getTitle() + " - erstellt am " + date;
 	    	
 	    	textLine = new TextLine(mainFont);
 	    	textLine.setText(footer);

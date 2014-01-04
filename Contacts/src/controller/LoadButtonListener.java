@@ -29,6 +29,7 @@ public class LoadButtonListener implements ActionListener {
 		} catch (Exception e) {
 //			e.printStackTrace();
 		}
+		
 		ContactsTableModel model = (ContactsTableModel) table.getModel();
 		
 		model.setData(data);
