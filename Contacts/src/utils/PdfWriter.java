@@ -87,7 +87,7 @@ public class PdfWriter {
 		    
 		    // title
 	        int titleSize = 12;
-	        String title = String.format("%s", mainView.getFileName());
+	        String title = mainView.getModel().getTitle();
 	        
 	        Font titleFont = new Font(pdf, "Helvetica-Bold");
 	        titleFont.setSize(titleSize);

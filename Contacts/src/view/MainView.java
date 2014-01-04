@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import model.AppModel;
+import model.ContactsTableModel;
+
 
 
 public class MainView extends JFrame {
@@ -27,6 +30,8 @@ public class MainView extends JFrame {
 	
 	private ButtonsPanel buttonsPanel;
 	private ContactsTable table;
+	
+	private AppModel model = new AppModel();
 	
 	private String dirPath;
 	private String fileName = "neue Datei";
@@ -105,6 +110,26 @@ public class MainView extends JFrame {
 
 		Preferences user = Preferences.userRoot();
 		user.put(this.dirProperty, path);
+		
+	}
+	
+	public AppModel getModel() {
+		
+		// TODO update data with listeners (table model & header panel)
+		// ist nicht effitient, weil wird nur einmal beim speichern benötigt
+		this.model.setData(((ContactsTableModel) this.table.getModel()).getData());
+		this.model.setTitle(((HeaderPanel) this.headerPanel).getTitle());
+		
+		return this.model;
+		
+	}
+	
+	public void setModel(AppModel model) {
+		
+		this.model = model;
+		
+		((ContactsTableModel) this.table.getModel()).setData(model.getData());
+		((HeaderPanel) this.headerPanel).setTitle(model.getTitle());
 		
 	}
 }

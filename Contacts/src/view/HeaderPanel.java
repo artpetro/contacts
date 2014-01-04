@@ -7,10 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import model.ContactsTableModel;
 import net.java.dev.designgridlayout.DesignGridLayout;
 import utils.NameDocument;
-import controller.HeaderPanelListener;
 
 public class HeaderPanel extends JPanel{
 	
@@ -30,8 +28,6 @@ public class HeaderPanel extends JPanel{
 		this.titleTextField = new JTextField(new NameDocument(100), "", 50);
 		
 		thisLayout.row().grid().add(this.titleTextField);
-		
-		this.titleTextField.getDocument().addDocumentListener(new HeaderPanelListener((ContactsTableModel) mainView.getTable().getModel()));
 		
 	}
 	

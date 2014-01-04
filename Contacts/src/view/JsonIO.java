@@ -6,13 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import model.ContactsTableModel;
+import model.AppModel;
 
 import com.google.gson.Gson;
 
@@ -35,7 +34,7 @@ public class JsonIO {
 	        	BufferedWriter bw = new BufferedWriter(fw);
 	        	Gson json = new Gson();
  			 
-	        	bw.write(json.toJson(((ContactsTableModel) mainView.getTable().getModel()).getData()));
+	        	bw.write(json.toJson(mainView.getModel()));
 	        	bw.close();
 	        	
 	        	String dirPfad = file.getParent().toString();
@@ -55,11 +54,11 @@ public class JsonIO {
         return false;
     
 	} 
-	
-	@SuppressWarnings("rawtypes")
-	public static List[] load(String dirPfad, MainView mainView) {
+
+
+	public static void load(String dirPfad, MainView mainView) {
 		
-		List[] data = null;
+		AppModel data = null;
 
         JFileChooser chooser;
         if (dirPfad == null)
@@ -90,7 +89,7 @@ public class JsonIO {
 
 				br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
  
-				data = gson.fromJson(br, List[].class);
+				data = gson.fromJson(br, AppModel.class);
  			 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -104,12 +103,12 @@ public class JsonIO {
         	}
 
             chooser.setVisible(false);
+            
             mainView.setFileName(file.getName());
-            return data;
+            mainView.setModel(data);
+
         }
         
-        chooser.setVisible(false);
-        return null;
-    
+        chooser.setVisible(false);    
 	}
 }
